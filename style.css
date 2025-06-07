@@ -16,12 +16,15 @@ header {
     text-align: center;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Container do logo */
 .logo-container {
     max-width: 200px; /* Ajuste conforme necessário */
-    margin: 0 auto;
+    margin: 0 auto 1rem;
     padding: 0.5rem;
 }
 
