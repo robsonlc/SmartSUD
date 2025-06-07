@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esquema Mental - Estrutura SmartSUD</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #343a40;
+            line-height: 1.6;
+            margin: 0;
+            padding: 1rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .mindmap-title {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, #003366 0%, #004080 100%);
+            color: white;
+            margin: 0;
+        }
+        
+        .mindmap-title h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 0.5em;
+            font-weight: 700;
+        }
+
+        .mindmap-title p {
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .mindmap-container {
+            padding: 2rem 1rem;
+            overflow-x: auto;
+        }
+
+        .mindmap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .level {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .level-title {
+            background: #003366;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            box-shadow: 0 8px 25px rgba(0,51,102,0.3);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            width: fit-content;
+            min-width: 200px;
+        }
+
+        .branches {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .branch {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .branch::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .branch:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .branch-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #003366;
+            margin-bottom: 1rem;
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+        }
+
+        .branch-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .branch-item {
+            padding: 0.8rem 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .branch-item:hover {
+            background: #e3f2fd;
+            border-left-color: #003366;
+            transform: translateX(5px);
+        }
+
+        /* Estilos específicos por categoria */
+        .tese .branch::before { background: linear-gradient(90deg, #4caf50, #45a049); }
+        .tese .branch-item { border-left-color: #4caf50; }
+
+        .blocos .branch::before { background: linear-gradient(90deg, #ff9800, #f57c00); }
+        .blocos .branch-item { border-left-color: #ff9800; }
+
+        .operacao .branch::before { background: linear-gradient(90deg, #9c27b0, #7b1fa2); }
+        .operacao .branch-item { border-left-color: #9c27b0; }
+
+        .receita .branch::before { background: linear-gradient(90deg, #f44336, #d32f2f); }
+        .receita .branch-item { border-left-color: #f44336; }
+
+        .criterio .branch::before { background: linear-gradient(90deg, #607d8b, #455a64); }
+        .criterio .branch-item { border-left-color: #607d8b; }
+
+        /* Responsive para mobile */
+        @media (max-width: 768px) {
+            body { padding: 0.5rem; }
+            .mindmap-title { padding: 1.5rem 1rem; }
+            .mindmap-container { padding: 1rem 0.5rem; }
+            .branches { 
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .branch { padding: 1rem; }
+            .level-title { 
+                min-width: auto;
+                width: 90%;
+                padding: 0.8rem 1.5rem;
+            }
+        }
+
+        /* Tags especiais */
+        .status-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .tag-ativo {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .tag-expansao {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* Conexões visuais */
+        .connector {
+            width: 2px;
+            height: 2rem;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            margin: 0 auto;
+            opacity: 0.6;
+        }
+
+        /* Animações */
+        .branch {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .branch:nth-child(1) { animation-delay: 0.1s; }
+        .branch:nth-child(2) { animation-delay: 0.2s; }
+        .branch:nth-child(3) { animation-delay: 0.3s; }
+        .branch:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="mindmap-title">
+        <h1>Estrutura Organizacional e Estratégica da SmartSUD</h1>
+        <p>Um modelo de empresa leve, modular e escalável, ancorada em inteligência contínua e controle centralizado.</p>
+    </div>
+
+    <div class="mindmap-container">
+        <div class="mindmap">
+            
+            <!-- Tese de Atuação -->
+            <div class="level tese">
+                <div class="level-title">Tese de Atuação</div>
+                <div class="branches">
+                    <div class="branch">
+                        <div class="branch-title">Pilares Fundamentais</div>
+                        <div class="branch-items">
+                            <div class="branch-item">Intermediação Estratégica</div>
+                            <div class="branch-item">Estruturação de Valor</div>
+                            <div class="branch-item">Inteligência Aplicada</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- Blocos Modulares -->
+            <div class="level blocos">
+                <div class="level-title">Blocos Modulares Funcionais</div>
+                <div class="branches">
+                    <div class="branch">
+                        <div class="branch-title">Blocos Ativos <span class="status-tag tag-ativo">Operacional</span></div>
+                        <div class="branch-items">
+                            <div class="branch-item">Angariadores Locais</div>
+                            <div class="branch-item">Jurídico Estratégico</div>
+                            <div class="branch-item">Modelagem Financeira</div>
+                            <div class="branch-item">Arquitetura e Estudos</div>
+                            <div class="branch-item">Inteligência de Mercado</div>
+                            <div class="branch-item">Orçamentação e CAPEX</div>
+                            <div class="branch-item">Network (Robson)</div>
+                        </div>
+                    </div>
+                    <div class="branch">
+                        <div class="branch-title">Blocos em Expansão <span class="status-tag tag-expansao">Desenvolvimento</span></div>
+                        <div class="branch-items">
+                            <div class="branch-item">Comunicação Institucional</div>
+                            <div class="branch-item">Relacionamento com Investidores</div>
+                            <div class="branch-item">Gestão Documental</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- Modo de Operação -->
+            <div class="level operacao">
+                <div class="level-title">Modo de Operação</div>
+                <div class="branches">
+                    <div class="branch">
+                        <div class="branch-title">Estrutura Operacional</div>
+                        <div class="branch-items">
+                            <div class="branch-item">Controle Central com IA 24/7</div>
+                            <div class="branch-item">Ativação Sob Demanda</div>
+                            <div class="branch-item">DataRoom (Google Drive)</div>
+                            <div class="branch-item">Produção Contínua de Materiais</div>
+                            <div class="branch-item">Plano de Estudos Prático</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- Modelos de Receita -->
+            <div class="level receita">
+                <div class="level-title">Modelos de Receita</div>
+                <div class="branches">
+                    <div class="branch">
+                        <div class="branch-title">Fontes de Receita</div>
+                        <div class="branch-items">
+                            <div class="branch-item">Intermediação Direta</div>
+                            <div class="branch-item">Estruturação de Parcerias</div>
+                            <div class="branch-item">Captação (Fundos/CRI)</div>
+                            <div class="branch-item">Futuras Operações de M&A</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- Critério Estratégico -->
+            <div class="level criterio">
+                <div class="level-title">Critério Estratégico</div>
+                <div class="branches">
+                    <div class="branch">
+                        <div class="branch-title">Checklist: Intermediar ou Estruturar?</div>
+                        <div class="branch-items">
+                            <div class="branch-item">Acesso à Origem</div>
+                            <div class="branch-item">Maturidade da Área</div>
+                            <div class="branch-item">Nível de Concorrência</div>
+                            <div class="branch-item">Potencial de VGV</div>
+                            <div class="branch-item">Custo de Estruturação</div>
+                            <div class="branch-item">Potencial de Case</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
