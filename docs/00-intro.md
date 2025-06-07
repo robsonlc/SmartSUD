@@ -1,6 +1,6 @@
-## **![][image1]**
+![SmartSUD Logo](logo.png)
 
-## **Business Plan – SmartSUD Estruturação Estratégica** {#business-plan-–-smartsud-estruturação-estratégica} 
+## **Business Plan – SmartSUD Estruturação Estratégica** {#business-plan-–-smartsud-estruturação-estratégica}
 
 ---
 
