@@ -35,6 +35,20 @@ header h1 {
     margin-top: 0;
 }
 
+/* Ensure links in the header remain visible against the dark background */
+header a {
+    color: #fff;
+}
+
+header a:visited {
+    color: #fff;
+}
+
+header a:hover,
+header a:focus {
+    text-decoration: underline;
+}
+
 a {
     color: #004080;
 }
