@@ -1,3 +1,4 @@
+/* Reset e estilos base */
 body {
     font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
     margin: 0;
@@ -7,14 +8,61 @@ body {
     color: #333;
 }
 
+/* Estilos do cabeçalho aprimorados */
 header {
-    background-color: #004080;
+    background-color: #004080; /* Será ajustado para corresponder ao background do logo */
     color: #fff;
-    padding: 1rem 0.5rem;
+    padding: 1.5rem 1rem;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    position: relative;
 }
 
+/* Container do logo */
+.logo-container {
+    max-width: 200px; /* Ajuste conforme necessário */
+    margin: 0 auto;
+    padding: 0.5rem;
+}
+
+.logo-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Melhorias na responsividade do cabeçalho */
+@media screen and (max-width: 768px) {
+    header {
+        padding: 1rem 0.5rem;
+    }
+    
+    .logo-container {
+        max-width: 150px; /* Logo menor em telas pequenas */
+    }
+    
+    header h1 {
+        font-size: 1.5rem;
+        margin: 0.5rem 0;
+    }
+}
+
+/* Ajustes para telas muito pequenas */
+@media screen and (max-width: 480px) {
+    header {
+        padding: 0.75rem 0.25rem;
+    }
+    
+    .logo-container {
+        max-width: 120px;
+    }
+    
+    header h1 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Container principal responsivo */
 main {
     max-width: 900px;
     margin: 2rem auto;
@@ -24,24 +72,35 @@ main {
     border-radius: 8px;
 }
 
+@media screen and (max-width: 960px) {
+    main {
+        margin: 1rem;
+        padding: 1rem;
+    }
+}
+
+/* Tipografia responsiva */
 h1, h2, h3, h4 {
     color: #004080;
     margin-top: 1.2rem;
+    line-height: 1.2;
 }
 
-/* Ensure header title remains legible against the dark background */
 header h1 {
     color: #fff;
     margin-top: 0;
 }
 
-/* Ensure links in the header remain visible against the dark background */
+/* Links no cabeçalho */
 header a {
     color: #fff;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
 }
 
 header p {
     color: #fff;
+    margin: 0.5rem 0;
 }
 
 header a:visited {
@@ -50,22 +109,34 @@ header a:visited {
 
 header a:hover,
 header a:focus {
+    opacity: 0.8;
     text-decoration: underline;
 }
 
+/* Links gerais */
 a {
     color: #004080;
 }
 
+/* Blocos de código */
 pre, code {
     background-color: #f0f0f0;
     padding: 0.2rem 0.4rem;
     border-radius: 4px;
+    overflow-x: auto; /* Para código longo em telas pequenas */
 }
 
+/* Rodapé responsivo */
 footer {
     text-align: center;
     padding: 1rem;
     color: #666;
     margin-top: 2rem;
+}
+
+@media screen and (max-width: 480px) {
+    footer {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
 }
