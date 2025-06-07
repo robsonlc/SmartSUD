@@ -19,6 +19,10 @@ Promise.all(modules.map(file => fetch(file).then(res => res.text())))
     const html = texts.map(t => marked.parse(t)).join('\n');
     const content = document.getElementById('content');
     content.innerHTML = html;
+    // Preserve line breaks inside table cells
+    content.querySelectorAll('td').forEach(td => {
+      td.innerHTML = td.innerHTML.replace(/\n/g, '<br>');
+    });
 
     // Apply custom IDs defined in headings using the {#id} syntax
     content.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(heading => {
