@@ -75,7 +75,9 @@ Organizar o racional econômico da operação, testando cenários e fornecendo o
 **Requisitos Comportamentais:**
 – Rigor técnico e fluência em Excel e apresentações executivas;
 – Capacidade de dialogar tanto com players técnicos quanto com investidores;
-– Senso de entrega, leveza na comunicação e alinhamento estratégico com a visão da SmartSUD. Modelo de Remuneração:
+– Senso de entrega, leveza na comunicação e alinhamento estratégico com a visão da SmartSUD. 
+
+**Modelo de Remuneração:**
 – Fee por estudo de viabilidade entregue, com escopo previamente definido;
 – Possibilidade de remuneração variável proporcional ao ticket ou ao êxito da operação estruturada;
 – Em casos especiais, possibilidade de participação minoritária em projetos com captação institucional (quando for o caso). |
