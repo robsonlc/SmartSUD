@@ -29,6 +29,12 @@ h1, h2, h3, h4 {
     margin-top: 1.2rem;
 }
 
+/* Ensure header title remains legible against the dark background */
+header h1 {
+    color: #fff;
+    margin-top: 0;
+}
+
 a {
     color: #004080;
 }
