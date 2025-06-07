@@ -40,6 +40,10 @@ header a {
     color: #fff;
 }
 
+header p {
+    color: #fff;
+}
+
 header a:visited {
     color: #fff;
 }
